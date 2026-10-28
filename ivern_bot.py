@@ -13,8 +13,8 @@ item_benefits = {
     "Plastic": "Enables the economical use of resources",
     "Batteries": "Prevents waste that can negatively affect human health",
     "Concrete": "Natural resources are conserved",
-    "Organic waste": "Carbon emissions are reduced",
-    "Electronic waste": "Creates jobs and contributes to the economy by developing a sector",
+    "Organic_waste": "Carbon emissions are reduced",
+    "Electronic_waste": "Creates jobs and contributes to the economy by developing a sector",
     "Iron": "Enables the economical use of resources",
     "Textiles": "Prevents waste that can negatively affect human health"
 }
@@ -26,10 +26,23 @@ item_results = {
     "Plastic": "Environmental pollution decreases",
     "Batteries": "Energy efficiency increases",
     "Concrete": "The amount of waste decreases",
-    "Organic waste": "Energy and water are saved",
-    "Electronic waste": "Provides economic benefits to those who collect recyclable waste",
+    "Organic_waste": "Energy and water are saved",
+    "Electronic_waste": "Provides economic benefits to those who collect recyclable waste",
     "Iron": "Environmental pollution decreases",
     "Textiles": "Energy efficiency increases"
+}
+
+recycling = {
+    "Glass": "Rinse bottles and jars and place them in a designated glass recycling bin.",
+    "Paper": "Keep paper clean and dry, flatten cardboard, and place it in paper recycling.",
+    "Aluminum": "Empty and rinse cans and other accepted aluminum packaging.",
+    "Plastic": "Check accepted plastic types, rinse containers, and sort according to local rules.",
+    "Batteries": "Take used batteries to designated collection points or hazardous-waste facilities.",
+    "Concrete": "Separate construction debris and send it to a concrete recycling facility.",
+    "Organic_waste": "Compost food scraps and other accepted organic materials.",
+    "Electronic_waste": "Take old electronics to authorized e-waste collection points.",
+    "Iron": "Separate iron and steel scrap and deliver it to a metal recycling facility.",
+    "Textiles": "Donate wearable clothes and take unwanted fabrics to textile collection points."
 }
 
 
@@ -53,7 +66,22 @@ async def on_message(message):
 
 @bot.command()
 async def _commands(ctx):
-    await ctx.send("$benefit [item_name]\n$result [item_name]\n\nItem names ->\n\nGlass\nPaper\nAluminum\nPlastic\nBatteries\nConcrete\nOrganic waste\nElectronic waste\nIron\nTextiles")
+    await ctx.send("$get_help\n$how_to_recycle [item_name]\n$benefit [item_name]\n$result [item_name]\n\nItem names ->\n\nGlass\nPaper\nAluminum\nPlastic\nBatteries\nConcrete\nOrganic_waste\nElectronic_waste\nIron\nTextiles")
+
+@bot.command()
+async def get_help(ctx):
+    await ctx.send("$how_to_recycle - For learning how to properly recycle each item\n$benefit - For learning how recycling an item benefits the environment\n$result - For learning what happens to the environment as a result when an item is recycled\n\nDon't forget to use the exact item name when using a command! (Ex: $how_to_recycle Organic_waste)")
+
+@bot.command()
+async def how_to_recycle(ctx, item_name: str):
+    if item_name in recycling:
+        await ctx.send(f"To properly recycle {item_name}: {recycling[item_name]}")
+    else:
+        await ctx.send("Idk this one lol try another one")
+        with open('images/wise_tree.jpg', 'rb') as f:
+            picture = discord.File(f)
+        await ctx.send(file=picture)
+        return
 
 @bot.command()
 async def benefit(ctx, item_name: str):
@@ -77,5 +105,4 @@ async def result(ctx, item_name: str):
         await ctx.send(file=picture)
         return
 
-
-bot.run("eternal knowledge ends here lol")
+bot.run("eternal knowledge ends here lol") # Replace with bot token
